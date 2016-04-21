@@ -10,17 +10,22 @@
 	<prefpane id = "paneSMTP" onpaneload= "" flex="1"> 
 		<preferences>
 			<preference id="saveSentItems" name="gmail.bSaveCopy" type="bool"/>
+			<preference id="noLineWrap" name="gmail.bNoLineWrap" type="bool"/>
 		</preferences>
 	
 		<vbox>
+			<!--
 			<text value="&Placeholder.Label;" id = "PlaceholderLabel"/>
 			
-			<!--
 			<checkbox label="&SaveSentItems.Label;" 
 				accesskey="&SaveSentItems.AccessKey;"
 				preference = "saveSentItems"
 				id="chkSentItems"/>
 			-->
+			<checkbox label="&NoLineWrap.Label;"
+				accesskey="&NoLineWrap.AccessKey;"
+				preference = "noLineWrap"
+				id="chkNoWrap"/>
 		</vbox>
 
 	</prefpane>

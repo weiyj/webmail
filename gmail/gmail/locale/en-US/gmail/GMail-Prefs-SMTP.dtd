@@ -1,3 +1,5 @@
 <!ENTITY Placeholder.Label "No options at the moment.">
 <!ENTITY SaveSentItems.Label "Save copy in sent items.">
 <!ENTITY SaveSentItems.AccessKey "s">
+<!ENTITY NoLineWrap.Label "disable autowrap in plain text mode.">
+<!ENTITY NoLineWrap.AccessKey "w">

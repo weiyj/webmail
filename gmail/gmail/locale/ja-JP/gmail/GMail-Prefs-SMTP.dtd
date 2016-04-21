@@ -1,3 +1,5 @@
 <!ENTITY Placeholder.Label "現在オプションがありません。">
 <!ENTITY SaveSentItems.Label "送信済みメールの中にコピーを保存する。">
 <!ENTITY SaveSentItems.AccessKey "s">
+<!ENTITY NoLineWrap.Label "自動折り返しを無効にする.">
+<!ENTITY NoLineWrap.AccessKey "w">

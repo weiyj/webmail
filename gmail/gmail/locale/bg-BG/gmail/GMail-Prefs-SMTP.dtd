@@ -1,3 +1,5 @@
 <!ENTITY Placeholder.Label "Няма настройки за момента">
 <!ENTITY SaveSentItems.Label "Запиши копие в изпратени">
 <!ENTITY SaveSentItems.AccessKey "s">
+<!ENTITY NoLineWrap.Label "disable autowrap in plain text mode.">
+<!ENTITY NoLineWrap.AccessKey "w">

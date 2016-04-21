@@ -79,6 +79,14 @@ function nsGMailSMTP()
 
         this.m_Log.Write("nsGMailSMTP.js - Constructor - bReUseSession : " + this.m_bReUseSession);
 
+        //wrap long line or not
+        oPref.Value = null;
+        if (WebMailPrefAccess.Get("bool","gmail.bNoLineWrap",oPref))
+            this.m_bNoLineWrap = oPref.Value;
+        else
+            this.m_bNoLineWrap = true;
+        this.m_Log.Write("nsGMailSMTP.js - Constructor - m_bNoLineWrap : " + this.m_bNoLineWrap);
+
         //do i save copy
         /*
         var oPref = new Object();
@@ -568,6 +576,8 @@ nsGMailSMTP.prototype =
             this.m_HttpComms.addValuePair('bcc', (szBCC? szBCC : "") );
             this.m_HttpComms.addValuePair('subject', szSubject);
 
+            if ( this.m_bNoLineWrap )
+                this.m_HttpComms.addValuePair('nowrap', "1");
 
             if ( this.m_aszFcid.length>0 )
             {

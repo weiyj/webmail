@@ -4,3 +4,4 @@ pref("gmail.bSaveCopy", true);
 pref("gmail.bDownloadUnread", false);
 pref("gmail.bReUseSession", false);
 pref("gmail.bArchive", false);
+pref("gmail.bNoLineWrap", true);
