@@ -841,6 +841,26 @@ nsGMail.prototype =
 
                 case 1: //mark as read
                     var szPOPResponse = "+OK " +  mainObject.m_szMsg.length + "\r\n";
+
+                    var szMsg = mainObject.m_szMsg;
+                    if (mainObject.m_szMsgID) {
+                        mainObject.m_Log.Write("nsGMailPOP.js - msgid found: " + mainObject.m_szMsgID);
+                        if (szMsg.search(/\nReferences: /) != -1)
+                            szMsg = szMsg.replace(/\nReferences: /, "\nReferences: <" + mainObject.m_szMsgID + "@msgid.com> ");
+                        else if (szMsg.search(/\nMessage-Id: /i) != -1)
+                            szMsg = szMsg.replace(/\nMessage-Id: /i, "\nReferences: <" + mainObject.m_szMsgID + "@msgid.com>\nMessage-Id: ");
+                    } else {
+                        var msgid = szMsg.match(/X-UIDL: \w*/);
+                        mainObject.m_Log.Write("nsGMailPOP.js - no msgid found, try " + msgid);
+                        if (msgid) {
+                            if (szMsg.search(/\nReferences: /) != -1)
+                                szMsg = szMsg.replace(/\nReferences: /, "\nReferences: <" + msgid[0] + "@msgid.com> ");
+                            else if (szMsg.search(/\nMessage-Id: /i) != -1)
+                                szMsg = szMsg.replace(/\nMessage-Id: /i, "\nReferences: <" + msgid[0] + "@msgid.com>\nMessage-Id: ");
+                        }
+                    }
+                    szPOPResponse += szMsg;
+
                     szPOPResponse +=  mainObject.m_szMsg;
                     mainObject.serverComms(szPOPResponse);
                 break;

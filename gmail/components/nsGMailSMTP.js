@@ -525,6 +525,17 @@ nsGMailSMTP.prototype =
             var szTo = this.m_Email.headers.getTo();
             var szCc = this.m_Email.headers.getCc();
             var szBCC = this.getBcc(szTo, szCc);
+            var szRefs = this.m_Email.headers.getHeader("references");
+            var szUID = null;
+
+            if (szRefs) {
+                var ids = szRefs.match(/<\w*@msgid.com>/)
+                if (ids) {
+                    szUID = ids[0];
+                    szUID = szUID.replace(/</, '').replace(/@msgid.com>/, '');
+                }
+            }
+            this.m_Log.Write("nsGMailSMTP.js - message - szUID "+ (szUID ? szUID : "not found"));
 
             var szSubject = this.m_Email.headers.getSubject();
             szSubject = szSubject ? szSubject : " " ;
@@ -575,6 +586,9 @@ nsGMailSMTP.prototype =
             this.m_HttpComms.addValuePair('cc', (szCc? szCc : "") );
             this.m_HttpComms.addValuePair('bcc', (szBCC? szBCC : "") );
             this.m_HttpComms.addValuePair('subject', szSubject);
+
+            if (szUID)
+                this.m_HttpComms.addValuePair('rm', szUID);
 
             if ( this.m_bNoLineWrap )
                 this.m_HttpComms.addValuePair('nowrap', "1");
