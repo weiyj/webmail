@@ -83,6 +83,14 @@ function nsGMail()
             this.m_bArchive = true;
         this.m_Log.Write("nsGMailPOP.js - Constructor - m_bArchive : " + this.m_bArchive);
 
+        //download mail sent by yourself
+        oPref.Value = null;
+        if (WebMailPrefAccess.Get("bool","gmail.bDownloadSent",oPref))
+            this.m_bDownloadSent= oPref.Value;
+        else
+            this.m_bDownloadSent = false;
+        this.m_Log.Write("nsGMailSMTP.js - Constructor - m_bDownloadSent : " + this.m_bDownloadSent);
+
         this.m_szMsgID = 0;
 
         this.m_Timer = Components.classes["@mozilla.org/timer;1"];
@@ -517,7 +525,7 @@ nsGMail.prototype =
                             //aEmailData[5] sender's email address != account email
                             mainObject.m_szUserName
                             var regExp = new RegExp(aEmailData[3]);
-                            if ( mainObject.m_szUserName.search(regExp)==-1)//sent items?
+                            if (mainObject.m_bDownloadSent || mainObject.m_szUserName.search(regExp)==-1)//sent items?
                             {
                                 var data = new GMailMSG();
                                 data.szMsgID = aEmailData[1];

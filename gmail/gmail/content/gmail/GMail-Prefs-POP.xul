@@ -12,6 +12,7 @@
 		<preferences>
 			<preference id="DownloadUnread" name="gmail.bDownloadUnread" type="bool"/>
             <preference id="Archive"        name="gmail.bArchive"        type="bool"/>
+                        <preference id="DownloadSent" name="gmail.bDownloadSent" type="bool"/>
 			</preferences>
 	
 		<vbox>
@@ -25,6 +26,11 @@
                       accesskey="&Archive.AccessKey;"
                       preference = "Archive"
                       id="chkArchive"/> 
+
+                       <checkbox label="&DownloadSent.Label;"
+                               accesskey="&DownloadSent.AccessKey;"
+                               preference = "DownloadSent"
+                               id="chkDownloadSent"/>
     
 			<spacer flex="2"/>
 		</vbox>

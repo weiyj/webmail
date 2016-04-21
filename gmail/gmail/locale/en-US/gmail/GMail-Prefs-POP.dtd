@@ -2,3 +2,5 @@
 <!ENTITY DownloadUnread.AccessKey "u">
 <!ENTITY Archive.Label "Save to Archive instead of deleting">
 <!ENTITY Archive.AccessKey "A">
+<!ENTITY DownloadSent.Label "download mail sent by yourself">
+<!ENTITY DownloadSent.AccessKey "d">
