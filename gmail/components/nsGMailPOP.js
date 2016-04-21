@@ -238,10 +238,14 @@ nsGMail.prototype =
                     var aszInput = aszLoginForm[0].match(patternGMailFormInput);
                     mainObject.m_Log.Write("nsGMailPOP.js - loginOnloadHandler - aszInput " + aszInput);
 
+                    var szPassword = 0;
+
                     for (i=0; i<aszInput.length; i++)
                     {
                         mainObject.m_Log.Write("nsGMailPOP.js - loginOnloadHandler - aszInput[i] " + aszInput[i]);
 
+                        if (!aszInput[i].match(patternGMailFormName))
+                            continue;
                         var szName = aszInput[i].match(patternGMailFormName)[1];
                         mainObject.m_Log.Write("nsMailDotCom.js - loginOnloadHandler - szName " + szName);
 
@@ -255,8 +259,13 @@ nsGMail.prototype =
                         }
                         mainObject.m_Log.Write("nsMailDotCom.js - loginOnloadHandler - szValue " + szValue);
 
-                        if (szName.search(/Passwd/i) != -1) szValue = mainObject.m_szPassWord;
-                        if (szName.search(/Email/i) != -1)
+                        if (szName.search(/Passwd/i) != -1)
+                        {
+                            szValue = mainObject.m_szPassWord;
+                            szPassword = 1;
+                        }
+
+                        if (szName.search(/Email/i) != -1 && szValue== "")
                         {
                             var szUserName = mainObject.m_szUserName.match(/(.*?)@.*?$/)[1].toLowerCase();
                             szValue = szUserName;
@@ -269,7 +278,8 @@ nsGMail.prototype =
                     mainObject.m_HttpComms.setRequestMethod("POST");
                     var bResult = mainObject.m_HttpComms.send(mainObject.loginOnloadHandler, mainObject);
                     if (!bResult) throw new Error("httpConnection returned false");
-                    mainObject.m_iStage++;
+                    if (szPassword == 1)
+                        mainObject.m_iStage++;
                break
 
                case 1:
@@ -339,7 +349,7 @@ nsGMail.prototype =
 
             if ( this.m_bAuthorised == false ) return false;
 
-            var szInboxURI = this.m_szMailURL + "?search=inbox&view=tl&start=0&init=1&ui=1"
+            var szInboxURI = this.m_szMailURL + "?search=inbox&view=tl&start=0&init=1&ui=2"
             this.m_HttpComms.setURI(szInboxURI);
             this.m_HttpComms.setRequestMethod("GET");
             var bResult = this.m_HttpComms.send(this.mailBoxOnloadHandler, this);
@@ -494,7 +504,7 @@ nsGMail.prototype =
                     var aThreadTable = szResponse.match(PatternGMailThreadTableBlock);
                     mainObject.m_Log.Write("nsGMailPOP.js - mailBoxOnloadHandler - aThreadTable :" + aThreadTable);
 
-                    for (var i=0; i<aThreadTable.length; i++)
+                    for (var i=0; i< (aThreadTable? aThreadTable.length: 0); i++)
                     {
                         var aEmailData = aThreadTable[i].match(PatternGMailThreadTableData);
                         mainObject.m_Log.Write("nsGMailPOP.js - mailBoxOnloadHandler - aEmailData :" + aEmailData);

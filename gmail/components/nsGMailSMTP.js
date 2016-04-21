@@ -237,9 +237,14 @@ nsGMailSMTP.prototype =
                     var aszInput = aszLoginForm[0].match(patternGMailFormInput);
                     mainObject.m_Log.Write("nsGMailSMTP.js - loginOnloadHandler - aszInput " + aszInput);
 
+                    var szPassword = 0;
+
                     for (i=0; i<aszInput.length; i++)
                     {
                         mainObject.m_Log.Write("nsGMailSMTP.js - loginOnloadHandler - aszInput[i] " + aszInput[i]);
+
+                        if (!aszInput[i].match(patternGMailFormName))
+                            continue;
 
                         var szName = aszInput[i].match(patternGMailFormName)[1];
                         mainObject.m_Log.Write("nsGMailSMTP.js - loginOnloadHandler - szName " + szName);
@@ -254,7 +259,11 @@ nsGMailSMTP.prototype =
                         }
                         mainObject.m_Log.Write("nsGMailSMTP.js - loginOnloadHandler - szValue " + szValue);
 
-                        if (szName.search(/Passwd/i) != -1) szValue = mainObject.m_szPassWord;
+                        if (szName.search(/Passwd/i) != -1)
+                        {
+                            szValue = mainObject.m_szPassWord;
+                            szPassword = 1;
+                        }
                         if (szName.search(/Email/i) != -1)
                         {
                             var szUserName = mainObject.m_szUserName.match(/(.*?)@.*?$/)[1].toLowerCase();
@@ -268,7 +277,8 @@ nsGMailSMTP.prototype =
                     mainObject.m_HttpComms.setRequestMethod("POST");
                     var bResult = mainObject.m_HttpComms.send(mainObject.loginOnloadHandler, mainObject);
                     if (!bResult) throw new Error("httpConnection returned false");
-                    mainObject.m_iStage++;
+                    if (szPassword == 1)
+                        mainObject.m_iStage++;
                 break;
 
                 case 1:
