@@ -420,7 +420,9 @@ nsGMail.prototype =
                         {
                             for (var i=0; i<aszBlock.length; i++)
                             {
+                                mainObject.m_Log.Write("nsGMailPOP.js - mailBoxOnloadHandler - one aszBlock :\n" + aszBlock[i]);
                                 var szData = aszBlock[i].replace(/\[".*?",\d*,\[/,"");
+                                mainObject.m_Log.Write("nsGMailPOP.js - mailBoxOnloadHandler - orig szData :\n" + szData);
                                 aszData = szData.match(PatternGMailMSGData);
                                 mainObject.m_Log.Write("nsGMailPOP.js - mailBoxOnloadHandler - szData : " + aszData);
 
